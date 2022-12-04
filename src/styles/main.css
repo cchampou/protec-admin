@@ -1,0 +1,10 @@
+body {
+    background-image: url("assets/bg.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: calc(100vh - 2rem);
+    padding-top: 2rem;
+    margin: 0;
+}
+
