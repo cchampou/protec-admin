@@ -4,6 +4,8 @@
     "target": "ESNext",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "strictNullChecks": true,
+    "noImplicitAny": true,
   }
 }

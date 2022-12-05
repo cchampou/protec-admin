@@ -5,6 +5,16 @@ class Api {
     return await response.json();
   }
 
+  public static async getUsers() {
+    try {
+      return await this.fetch('/api/users', {
+        method: 'GET',
+      });
+    } catch (error) {
+      console.error('Failed to fetch users', error);
+    }
+  }
+
   public static async sendNotification() {
     try {
       await this.fetch('/api/notify', {
