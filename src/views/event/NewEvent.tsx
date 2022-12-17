@@ -1,5 +1,5 @@
 import { Button } from 'baseui/button';
-import Api from '../services/Api';
+import Api from '../../services/Api';
 import { HeadingSmall } from 'baseui/typography';
 import { Input } from 'baseui/input';
 import { Card } from 'baseui/card';
@@ -8,7 +8,7 @@ import { Block } from 'baseui/block';
 import { Textarea } from 'baseui/textarea';
 import { DatePicker, TimePicker } from 'baseui/datepicker';
 
-const Event = () => {
+const NewEvent = () => {
   const [css, theme] = useStyletron();
   const sendNotification = () => {
     void Api.sendNotification();
@@ -16,7 +16,7 @@ const Event = () => {
 
   return (
     <Card>
-      <HeadingSmall>Nouveau déclenchement</HeadingSmall>
+      <HeadingSmall>Nouvel événement</HeadingSmall>
       <Block marginBottom={theme.sizing.scale400}>
         <Input placeholder="Titre" />
       </Block>
@@ -42,10 +42,10 @@ const Event = () => {
         <Textarea placeholder="Commentaire" />
       </Block>
       <Button type="button" onClick={sendNotification}>
-        Déclencher
+        Créer
       </Button>
     </Card>
   );
 };
 
-export default Event;
+export default NewEvent;
