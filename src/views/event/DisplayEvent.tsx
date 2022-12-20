@@ -3,12 +3,12 @@ import { HeadingSmall, HeadingXLarge, HeadingXSmall } from 'baseui/typography';
 import { Button } from 'baseui/button';
 import { Block } from 'baseui/block';
 import { FlexGrid } from 'baseui/flex-grid';
+import { ButtonGroup } from 'baseui/button-group';
 
 const DisplayEvent = () => {
   return (
     <Card>
-      <HeadingSmall>Détails de l'événement</HeadingSmall>
-      <HeadingXSmall>Titre</HeadingXSmall>
+      <HeadingSmall>Titre</HeadingSmall>
       <Block>Lieu</Block>
       <Block>Lien eProtec</Block>
       <Block>Date de début</Block>
@@ -17,16 +17,17 @@ const DisplayEvent = () => {
       <Block>Heure de fin</Block>
       <Block>Commentaire</Block>
       <Block height="scale800" />
-      <FlexGrid>
+      <ButtonGroup>
         <Button type="button" onClick={() => null}>
           Déclechement push
         </Button>
-        <Block marginLeft="scale400">
-          <Button type="button" onClick={() => null}>
-            Déclechement SMS
-          </Button>
-        </Block>
-      </FlexGrid>
+        <Button type="button" onClick={() => null}>
+          Déclechement SMS
+        </Button>
+        <Button type="button" onClick={() => null}>
+          Déclechement téléphonique
+        </Button>
+      </ButtonGroup>
     </Card>
   );
 };

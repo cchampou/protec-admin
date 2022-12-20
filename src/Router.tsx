@@ -9,6 +9,7 @@ import { Block } from 'baseui/block';
 import { StatefulMenu } from 'baseui/menu';
 import { useState } from 'react';
 import HamburgerButton from './components/HamburgerButton';
+import ListEvents from './views/event/ListEvents';
 
 const Router = () => {
   const navigate = useNavigate();
@@ -39,7 +40,8 @@ const Router = () => {
         <Route path="/user/list" element={<ListUsers />} />
         <Route path="/user/new" element={<NewUser />} />
         <Route path="/event/new" element={<NewEvent />} />
-        <Route path="/event/display" element={<DisplayEvent />} />
+        <Route path="/event/list" element={<ListEvents />} />
+        <Route path="/event/details" element={<DisplayEvent />} />
       </Routes>
     </>
   );

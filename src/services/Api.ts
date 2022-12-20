@@ -7,7 +7,7 @@ class Api {
 
   public static async getUsers() {
     try {
-      return await this.fetch('/api/users', {
+      return await this.fetch('/api/user', {
         method: 'GET',
       });
     } catch (error) {
@@ -23,6 +23,20 @@ class Api {
       console.info('Notification sent');
     } catch (error) {
       console.error('Failed to send notification', error);
+    }
+  }
+
+  public static async importUsers(file: File) {
+    try {
+      const formData = new FormData();
+      formData.append('csv', file);
+      await this.fetch('/api/user/import', {
+        method: 'POST',
+        body: formData,
+      });
+      console.info('Users imported');
+    } catch (error) {
+      console.error('Failed to import users', error);
     }
   }
 }
