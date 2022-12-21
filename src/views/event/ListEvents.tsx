@@ -4,6 +4,8 @@ import { Button, KIND } from 'baseui/button';
 import { Block } from 'baseui/block';
 import { useNavigate } from 'react-router-dom';
 import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
+import Api from '../../services/Api';
+import { useEffect, useState } from 'react';
 
 const SeeDetailsButton = () => {
   const navigate = useNavigate();
@@ -20,14 +22,15 @@ const SeeDetailsButton = () => {
   );
 };
 
-const ROW = {
-  title: 'Essai',
-  location: 'Place Bellecour',
-  date: '24/12/2022 18:00',
-};
-
 const ListEvents = () => {
   const navigate = useNavigate();
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    Api.getEvents().then((events) => {
+      setEvents(events);
+    });
+  }, []);
 
   return (
     <Card>
@@ -36,15 +39,15 @@ const ListEvents = () => {
         Nouveau
       </Button>
       <Block height="scale400" />
-      <TableBuilder data={[ROW]}>
-        <TableBuilderColumn<typeof ROW> header="Titre">
-          {(row) => row.title}
+      <TableBuilder data={events}>
+        <TableBuilderColumn<any> header="Titre">
+          {(row) => row.title ?? 'N/A'}
         </TableBuilderColumn>
-        <TableBuilderColumn<typeof ROW> header="Lieu">
-          {(row) => row.location}
+        <TableBuilderColumn<any> header="Lieu">
+          {(row) => row?.location ?? 'N/A'}
         </TableBuilderColumn>
-        <TableBuilderColumn<typeof ROW> header="Date">
-          {(row) => row.date}
+        <TableBuilderColumn<any> header="Date">
+          {(row) => row?.date ?? 'N/A'}
         </TableBuilderColumn>
         <TableBuilderColumn header="Actions">
           {() => <SeeDetailsButton />}

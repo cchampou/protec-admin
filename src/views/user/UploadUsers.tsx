@@ -9,15 +9,19 @@ import {
   SIZE,
 } from 'baseui/modal';
 import { FileUploader } from 'baseui/file-uploader';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Api from '../../services/Api';
 
-const UploadUsers = (props: Partial<ModalProps>) => {
+const UploadUsers = (props: Pick<ModalProps, 'onClose' | 'isOpen'>) => {
   const uploadRef = useRef<File>();
+  const [error, setError] = useState<string>();
 
-  const uploadFile = () => {
-    if (uploadRef.current) {
-      void Api.importUsers(uploadRef.current);
+  const uploadFile = async (accepted: File[]) => {
+    try {
+      await Api.importUsers(accepted[0]);
+      props.onClose?.({ closeSource: 'escape' });
+    } catch (e) {
+      setError(e.message);
     }
   };
 
@@ -26,14 +30,12 @@ const UploadUsers = (props: Partial<ModalProps>) => {
       <ModalHeader>Upload users</ModalHeader>
       <ModalBody>
         <FileUploader
-          onDropAccepted={(accepted) => {
-            uploadRef.current = accepted[0];
-          }}
+          onDropAccepted={uploadFile}
+          accept={'.csv'}
+          errorMessage={error}
+          onRetry={() => setError(undefined)}
         />
       </ModalBody>
-      <ModalFooter>
-        <ModalButton onClick={uploadFile}>Upload</ModalButton>
-      </ModalFooter>
     </Modal>
   );
 };

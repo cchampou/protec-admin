@@ -15,7 +15,7 @@ const ListUsers = () => {
   const [isOpenUploadUsers, setIsOpenUploadUsers] = useState(false);
 
   useEffect(() => {
-    Api.getUsers().then((users) =>
+    Api.getUsers().then((users) => {
       setUsers(
         users.map((user: any) => [
           user.lastName,
@@ -23,9 +23,9 @@ const ListUsers = () => {
           user.email,
           user.phone,
         ]),
-      ),
-    );
-  }, []);
+      );
+    });
+  }, [isOpenUploadUsers]);
 
   return (
     <Card>
@@ -35,7 +35,7 @@ const ListUsers = () => {
         onClose={() => setIsOpenUploadUsers(false)}
       />
       <ButtonGroup>
-        <Button type="button" onClick={() => navigate('/user/new')}>
+        <Button type="button" disabled onClick={() => navigate('/user/new')}>
           Créer
         </Button>
         <Button type="button" onClick={() => setIsOpenUploadUsers(true)}>
