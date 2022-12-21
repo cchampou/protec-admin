@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import NewUser from './views/user/NewUser';
 import ListUsers from './views/user/ListUsers';
 import NewEvent from './views/event/NewEvent';
@@ -10,14 +10,29 @@ import { StatefulMenu } from 'baseui/menu';
 import { useState } from 'react';
 import HamburgerButton from './components/HamburgerButton';
 import ListEvents from './views/event/ListEvents';
+import SideNav from 'baseui/side-navigation/nav';
+import { NavigationProps } from 'baseui/side-navigation';
+
+const NAVIGATION_ITEMS = [
+  {
+    title: 'Événements',
+    itemId: '/event/list',
+    subNav: [{ title: 'Nouvel événement', itemId: '/event/new' }],
+  },
+
+  { title: 'Utilisateurs', itemId: '/user/list' },
+];
 
 const Router = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const itemClickedHandler = ({ item }: { item: { route: string } }) => {
+  const itemClickedHandler: NavigationProps['onChange'] = ({ item, event }) => {
+    event.preventDefault();
+    if (!item.itemId) return;
     setIsOpen(false);
-    navigate(item.route);
+    navigate(item.itemId);
   };
 
   return (
@@ -26,13 +41,10 @@ const Router = () => {
       <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <HeadingLarge>Menu</HeadingLarge>
         <Block margin="scale400">
-          <StatefulMenu
-            onItemSelect={itemClickedHandler}
-            items={[
-              { label: 'Événements', route: '/event/list' },
-              { label: 'Nouvel événement', route: '/event/new' },
-              { label: 'Utilisateurs', route: '/user/list' },
-            ]}
+          <SideNav
+            onChange={itemClickedHandler}
+            activeItemId={pathname}
+            items={NAVIGATION_ITEMS}
           />
         </Block>
       </Drawer>
@@ -41,7 +53,7 @@ const Router = () => {
         <Route path="/user/new" element={<NewUser />} />
         <Route path="/event/new" element={<NewEvent />} />
         <Route path="/event/list" element={<ListEvents />} />
-        <Route path="/event/details" element={<DisplayEvent />} />
+        <Route path="/event/:id" element={<DisplayEvent />} />
       </Routes>
     </>
   );

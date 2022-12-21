@@ -7,14 +7,18 @@ import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
 import Api from '../../services/Api';
 import { useEffect, useState } from 'react';
 
-const SeeDetailsButton = () => {
+type SeeDetailsButtonProps = {
+  id: string;
+};
+
+const SeeDetailsButton = ({ id }: SeeDetailsButtonProps) => {
   const navigate = useNavigate();
 
   return (
     <Button
       kind={KIND.secondary}
       size={'compact'}
-      onClick={() => navigate('/event/details')}
+      onClick={() => navigate('/event/' + id)}
       type="button"
     >
       Voir les détails
@@ -47,10 +51,10 @@ const ListEvents = () => {
           {(row) => row?.location ?? 'N/A'}
         </TableBuilderColumn>
         <TableBuilderColumn<any> header="Date">
-          {(row) => row?.date ?? 'N/A'}
+          {(row) => row?.start ?? 'N/A'}
         </TableBuilderColumn>
-        <TableBuilderColumn header="Actions">
-          {() => <SeeDetailsButton />}
+        <TableBuilderColumn<any> header="Actions">
+          {(row) => <SeeDetailsButton id={row._id} />}
         </TableBuilderColumn>
       </TableBuilder>
     </Card>

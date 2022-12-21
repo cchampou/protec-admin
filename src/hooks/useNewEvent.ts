@@ -26,8 +26,8 @@ const useNewEvent = () => {
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await Api.createEvent(newEvent);
-      navigate('/event/list');
+      const apiResponseEvent = await Api.createEvent(newEvent);
+      navigate('/event/' + apiResponseEvent._id);
     } catch (error) {
       setErrorMessage(error.message);
       setTimeout(() => {

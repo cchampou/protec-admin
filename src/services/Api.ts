@@ -19,9 +19,9 @@ class Api {
     }
   }
 
-  public static async sendNotification() {
+  public static async sendNotification(eventId: string, mode: string) {
     try {
-      await this.fetch('/api/notify', {
+      await this.fetch(`/api/event/${eventId}/notify/${mode}`, {
         method: 'POST',
       });
       console.info('Notification sent');
@@ -46,6 +46,16 @@ class Api {
       });
     } catch (error) {
       console.error('Failed to fetch events', error);
+    }
+  }
+
+  public static async getEvent(id: string): Promise<any> {
+    try {
+      return await this.fetch(`/api/event/${id}`, {
+        method: 'GET',
+      });
+    } catch (error) {
+      console.error('Failed to fetch event', error);
     }
   }
 

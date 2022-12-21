@@ -23,10 +23,6 @@ const NewEvent = () => {
     setEndTime,
   } = useNewEvent();
 
-  const sendNotification = () => {
-    void Api.sendNotification();
-  };
-
   return (
     <Card>
       <form onSubmit={handleSubmit}>
