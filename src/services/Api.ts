@@ -19,6 +19,27 @@ class Api {
     }
   }
 
+  public static async getUser(id: string): Promise<any> {
+    try {
+      return await this.fetch(`/api/user/${id}`, {
+        method: 'GET',
+      });
+    } catch (error) {
+      console.error('Failed to fetch user', error);
+    }
+  }
+
+  public static async inviteUser(userId: string) {
+    try {
+      await this.fetch(`/api/user/${userId}/invite`, {
+        method: 'POST',
+      });
+      console.info('Invitation sent');
+    } catch (error) {
+      console.error('Failed to send invitation', error);
+    }
+  }
+
   public static async sendNotification(eventId: string, mode: string) {
     try {
       await this.fetch(`/api/event/${eventId}/notify/${mode}`, {
@@ -50,13 +71,9 @@ class Api {
   }
 
   public static async getEvent(id: string): Promise<any> {
-    try {
-      return await this.fetch(`/api/event/${id}`, {
-        method: 'GET',
-      });
-    } catch (error) {
-      console.error('Failed to fetch event', error);
-    }
+    return await this.fetch(`/api/event/${id}`, {
+      method: 'GET',
+    });
   }
 
   public static createEvent(event: any) {

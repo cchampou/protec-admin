@@ -12,6 +12,7 @@ import HamburgerButton from './components/HamburgerButton';
 import ListEvents from './views/event/ListEvents';
 import SideNav from 'baseui/side-navigation/nav';
 import { NavigationProps } from 'baseui/side-navigation';
+import DisplayUser from './views/user/DisplayUser';
 
 const NAVIGATION_ITEMS = [
   {
@@ -51,6 +52,7 @@ const Router = () => {
       <Routes>
         <Route path="/user/list" element={<ListUsers />} />
         <Route path="/user/new" element={<NewUser />} />
+        <Route path="/user/:id" element={<DisplayUser />} />
         <Route path="/event/new" element={<NewEvent />} />
         <Route path="/event/list" element={<ListEvents />} />
         <Route path="/event/:id" element={<DisplayEvent />} />

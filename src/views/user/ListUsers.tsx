@@ -1,6 +1,6 @@
 import { Card } from 'baseui/card';
 import { Table } from 'baseui/table';
-import { Button } from 'baseui/button';
+import { Button, SIZE } from 'baseui/button';
 import { Block } from 'baseui/block';
 import { ButtonGroup } from 'baseui/button-group';
 import { HeadingSmall, HeadingXSmall } from 'baseui/typography';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Api from '../../services/Api';
 import UploadUsers from './UploadUsers';
+import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
 
 const ListUsers = () => {
   const navigate = useNavigate();
@@ -16,14 +17,7 @@ const ListUsers = () => {
 
   useEffect(() => {
     Api.getUsers().then((users) => {
-      setUsers(
-        users.map((user: any) => [
-          user.lastName,
-          user.firstName,
-          user.email,
-          user.phone,
-        ]),
-      );
+      setUsers(users);
     });
   }, [isOpenUploadUsers]);
 
@@ -43,7 +37,28 @@ const ListUsers = () => {
         </Button>
       </ButtonGroup>
       <Block height="scale400" />
-      <Table columns={['Nom', 'Prénom', 'Email', 'Téléphone']} data={users} />
+      <TableBuilder data={users}>
+        <TableBuilderColumn<any> header="Nom">
+          {(row) => row.lastName + ' ' + row.firstName ?? 'N/A'}
+        </TableBuilderColumn>
+        <TableBuilderColumn<any> header="Email">
+          {(row) => row.email ?? 'N/A'}
+        </TableBuilderColumn>
+        <TableBuilderColumn<any> header="Téléphone">
+          {(row) => row.phone ?? 'N/A'}
+        </TableBuilderColumn>
+        <TableBuilderColumn<any> header="Actions">
+          {(row) => (
+            <Button
+              type="button"
+              size={SIZE.mini}
+              onClick={() => navigate('/user/' + row._id)}
+            >
+              Voir
+            </Button>
+          )}
+        </TableBuilderColumn>
+      </TableBuilder>
     </Card>
   );
 };
