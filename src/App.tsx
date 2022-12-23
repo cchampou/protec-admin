@@ -1,22 +1,9 @@
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { BaseProvider, LightTheme } from 'baseui';
-import NewEvent from './views/event/NewEvent';
-import {
-  BrowserRouter,
-  NavLink,
-  Route,
-  Routes,
-  useNavigate,
-} from 'react-router-dom';
-import NewUser from './views/user/NewUser';
-import ListUsers from './views/user/ListUsers';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Block } from 'baseui/block';
 import Router from './Router';
-import { Drawer } from 'baseui/drawer';
-import { HeadingLarge, HeadingSmall, HeadingXSmall } from 'baseui/typography';
-import { FlexGrid } from 'baseui/flex-grid';
-import { StatefulMenu } from 'baseui/menu';
 
 const engine = new Styletron();
 

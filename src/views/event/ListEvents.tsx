@@ -18,7 +18,7 @@ const SeeDetailsButton = ({ id }: SeeDetailsButtonProps) => {
     <Button
       kind={KIND.secondary}
       size={'compact'}
-      onClick={() => navigate('/event/' + id)}
+      onClick={() => navigate('/dashboard/event/' + id)}
       type="button"
     >
       Voir les détails
@@ -39,7 +39,7 @@ const ListEvents = () => {
   return (
     <Card>
       <HeadingSmall>Liste des événements</HeadingSmall>
-      <Button type="button" onClick={() => navigate('/event/new')}>
+      <Button type="button" onClick={() => navigate('/dashboard/event/new')}>
         Nouveau
       </Button>
       <Block height="scale400" />

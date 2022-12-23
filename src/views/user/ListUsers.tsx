@@ -52,7 +52,7 @@ const ListUsers = () => {
             <Button
               type="button"
               size={SIZE.mini}
-              onClick={() => navigate('/user/' + row._id)}
+              onClick={() => navigate('/dashboard/user/' + row._id)}
             >
               Voir
             </Button>

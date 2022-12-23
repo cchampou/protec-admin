@@ -40,7 +40,7 @@ const NewEvent = () => {
             placeholder="Lieu"
             name="location"
             onChange={handleChange}
-            value={newEvent.eProtecLink}
+            value={newEvent.location}
           />
         </Block>
         <Block marginBottom={theme.sizing.scale400}>
