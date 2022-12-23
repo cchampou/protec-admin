@@ -21,8 +21,8 @@ const NAVIGATION_ITEMS = [
     itemId: '/dashboard/event/list',
     subNav: [{ title: 'Nouvel événement', itemId: '/dashboard/event/new' }],
   },
-
   { title: 'Utilisateurs', itemId: '/dashboard/user/list' },
+  { title: 'Déconnexion', itemId: '/login' },
 ];
 
 const Router = () => {
@@ -34,6 +34,9 @@ const Router = () => {
     event.preventDefault();
     if (!item.itemId) return;
     setIsOpen(false);
+    if (item.itemId === '/login') {
+      Auth.logout();
+    }
     navigate(item.itemId);
   };
 
