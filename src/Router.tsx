@@ -40,6 +40,8 @@ const Router = () => {
   useEffect(() => {
     if (pathname.startsWith('/dashboard') && !Auth.isAuthenticated) {
       navigate('/login');
+    } else if (pathname === '/login' && Auth.isAuthenticated) {
+      navigate('/dashboard/event/list');
     }
   }, [pathname, navigate]);
 
