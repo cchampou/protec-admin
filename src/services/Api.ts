@@ -9,6 +9,36 @@ class Api {
     return content;
   }
 
+  public static async login(email: string, password: string) {
+    return this.fetch('/api/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+  }
+
+  public static async recoverPassword(email: string) {
+    return this.fetch(`/api/user/recover`, {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
+  public static async resetPassword(token: string, password: string) {
+    return this.fetch(`/api/user/reset`, {
+      method: 'POST',
+      body: JSON.stringify({ token, password }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
   public static async getUsers(): Promise<any> {
     try {
       return await this.fetch('/api/user', {

@@ -14,6 +14,8 @@ import ListEvents from './views/event/ListEvents';
 import DisplayEvent from './views/event/DisplayEvent';
 import Auth from './services/Auth';
 import HamburgerButton from './components/HamburgerButton';
+import Recover from './views/Recover';
+import Password from './views/Password';
 
 const NAVIGATION_ITEMS = [
   {
@@ -67,6 +69,8 @@ const Router = () => {
       )}
       <Routes>
         <Route path="login" index element={<Login />} />
+        <Route path="recover" element={<Recover />} />
+        <Route path="password" element={<Password />} />
         <Route path="dashboard">
           <Route path="user/list" element={<ListUsers />} />
           <Route path="user/new" element={<NewUser />} />

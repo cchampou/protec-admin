@@ -1,3 +1,5 @@
+import Api from './Api';
+
 class Auth {
   token: string | null = null;
 
@@ -9,8 +11,9 @@ class Auth {
     return !!this.token;
   }
 
-  authenticate = (username: string, password: string): void => {
-    if (username === 'admin' && password === 'admin') {
+  authenticate = async (username: string, password: string) => {
+    const { token } = await Api.login(username, password);
+    if (token) {
       this.token = '1234567890';
       localStorage.setItem('token', this.token);
       return;

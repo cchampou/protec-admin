@@ -14,15 +14,15 @@ import Auth from '../services/Auth';
 const Login = () => {
   const [, theme] = useStyletron();
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('clement@champouillon.com');
+  const [password, setPassword] = React.useState('pass');
   const [errorMessage, setErrorMessage] = React.useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       Auth.authenticate(email, password);
-      navigate('/dashboard/event/list');
+      // navigate('/dashboard/event/list');
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -53,9 +53,8 @@ const Login = () => {
             />
           </FormControl>
         </Block>
-        {/* forgot password link */}
         <Block marginBottom={theme.sizing.scale400}>
-          <NavLink to="/reset">Mot de passe oublié ?</NavLink>
+          <NavLink to="/recover">Mot de passe oublié ?</NavLink>
         </Block>
         <Block marginBottom={theme.sizing.scale400}>
           <Button type="submit">Se connecter</Button>
