@@ -14,15 +14,15 @@ import Auth from '../services/Auth';
 const Login = () => {
   const [, theme] = useStyletron();
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState('clement@champouillon.com');
-  const [password, setPassword] = React.useState('pass');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      Auth.authenticate(email, password);
-      // navigate('/dashboard/event/list');
+      await Auth.authenticate(email, password);
+      navigate('/dashboard/event/list');
     } catch (error) {
       setErrorMessage(error.message);
     }

@@ -9,13 +9,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Recover = () => {
-  const [email, setEmail] = useState('clement@champouillon.com');
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     void Api.recoverPassword(email);
-    // navigate('/login');
+    navigate('/login');
   };
 
   return (

@@ -1,8 +1,22 @@
+import Auth from './Auth';
+
 class Api {
   private static async fetch(path: string, options: RequestInit) {
     const url = `http://localhost:3000${path}`;
-    const response = await fetch(url, options);
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        ...options.headers,
+        ...(Auth.isAuthenticated
+          ? { Authorization: `Bearer ${Auth.token}` }
+          : {}),
+      },
+    });
     const content = await response.json();
+    if (response.status === 401 && path !== '/api/auth/login') {
+      Auth.logout();
+      window.location.reload();
+    }
     if (!response.ok) {
       throw new Error(content.message);
     }
@@ -10,7 +24,7 @@ class Api {
   }
 
   public static async login(email: string, password: string) {
-    return this.fetch('/api/user/login', {
+    return this.fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,7 +34,7 @@ class Api {
   }
 
   public static async recoverPassword(email: string) {
-    return this.fetch(`/api/user/recover`, {
+    return this.fetch(`/api/auth/recover`, {
       method: 'POST',
       body: JSON.stringify({ email }),
       headers: {
@@ -30,7 +44,7 @@ class Api {
   }
 
   public static async resetPassword(token: string, password: string) {
-    return this.fetch(`/api/user/reset`, {
+    return this.fetch(`/api/auth/reset`, {
       method: 'POST',
       body: JSON.stringify({ token, password }),
       headers: {

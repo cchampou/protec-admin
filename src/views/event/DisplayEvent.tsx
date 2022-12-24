@@ -43,7 +43,7 @@ const DisplayEvent = () => {
     void fetchEvent();
     interval.current = setInterval(() => {
       void fetchEvent();
-    }, 1000);
+    }, 10000);
 
     return () => {
       clearInterval(interval.current);

@@ -14,8 +14,8 @@ class Auth {
   authenticate = async (username: string, password: string) => {
     const { token } = await Api.login(username, password);
     if (token) {
-      this.token = '1234567890';
-      localStorage.setItem('token', this.token);
+      this.token = token;
+      localStorage.setItem('token', token);
       return;
     }
     throw new Error('Invalid username or password');

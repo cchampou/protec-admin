@@ -16,10 +16,10 @@ const Password = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    void Api.resetPassword(token, password);
-    // navigate('/login');
+    await Api.resetPassword(token, password);
+    navigate('/login');
   };
 
   return (
