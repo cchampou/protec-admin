@@ -70,7 +70,7 @@ const Router = () => {
       <Routes>
         <Route path="login" index element={<Login />} />
         <Route path="recover" element={<Recover />} />
-        <Route path="password" element={<Password />} />
+        <Route path="password/:token" element={<Password />} />
         <Route path="dashboard">
           <Route path="user/list" element={<ListUsers />} />
           <Route path="user/new" element={<NewUser />} />

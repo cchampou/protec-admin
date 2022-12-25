@@ -1,17 +1,16 @@
-// A react view to recover a password with a recovery token input and password confirmation input.
-
 import { Button } from 'baseui/button';
 import { Block } from 'baseui/block';
 import { Input } from 'baseui/input';
 import { FormControl } from 'baseui/form-control';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FormEvent, useState } from 'react';
 import Api from '../services/Api';
 import { Card } from 'baseui/card';
 import { HeadingSmall } from 'baseui/typography';
 
 const Password = () => {
-  const [token, setToken] = useState('');
+  const { token: tokenFromUrl } = useParams();
+  const [token, setToken] = useState(tokenFromUrl ?? '');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const navigate = useNavigate();
@@ -42,6 +41,7 @@ const Password = () => {
               placeholder="Mot de passe"
               name="password"
               type="password"
+              autoFocus
               onChange={(event) => setPassword(event.currentTarget.value)}
               value={password}
             />

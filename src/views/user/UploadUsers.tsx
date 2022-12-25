@@ -1,8 +1,6 @@
 import {
   Modal,
   ModalBody,
-  ModalButton,
-  ModalFooter,
   ModalHeader,
   ModalProps,
   ROLE,
@@ -29,6 +27,10 @@ const UploadUsers = (props: Pick<ModalProps, 'onClose' | 'isOpen'>) => {
     <Modal {...props} animate autoFocus size={SIZE.default} role={ROLE.dialog}>
       <ModalHeader>Upload users</ModalHeader>
       <ModalBody>
+        <p>
+          Attention, les utilisateurs déjà présent en base ne seront pas
+          affectés et pas mis à jour.
+        </p>
         <FileUploader
           onDropAccepted={uploadFile}
           accept={'.csv'}
