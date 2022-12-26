@@ -73,6 +73,16 @@ class Api {
     }
   }
 
+  public static async patchUser(id: string, user: any) {
+    return this.fetch(`/api/user/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+  }
+
   public static async inviteUser(userId: string) {
     try {
       await this.fetch(`/api/user/${userId}/invite`, {
