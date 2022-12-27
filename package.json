@@ -28,5 +28,8 @@
     "styletron-engine-atomic": "^1.5.0",
     "styletron-react": "^6.1.0",
     "winston": "^3.8.2"
+  },
+  "resolutions": {
+    "react-dropzone": "10.2.2"
   }
 }
