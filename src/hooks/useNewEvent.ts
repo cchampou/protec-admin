@@ -27,7 +27,7 @@ const useNewEvent = () => {
     e.preventDefault();
     try {
       const apiResponseEvent = await Api.createEvent(newEvent);
-      navigate('/event/' + apiResponseEvent._id);
+      navigate('/dashboard/event/' + apiResponseEvent._id);
     } catch (error) {
       setErrorMessage(error.message);
       setTimeout(() => {
