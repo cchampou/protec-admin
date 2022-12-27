@@ -2,7 +2,7 @@ import Auth from './Auth';
 
 class Api {
   private static async fetch(path: string, options: RequestInit) {
-    const url = `http://localhost:3000${path}`;
+    const url = `${import.meta.env.VITE_API_URL}${path}`;
     const response = await fetch(url, {
       ...options,
       headers: {
