@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^2.2.0",
-    "baseui": "^12.2.0",
+    "baseui": "https://pkg.csb.dev/uber/baseweb/commit/ed8727fb/baseui",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
@@ -28,8 +28,5 @@
     "styletron-engine-atomic": "^1.5.0",
     "styletron-react": "^6.1.0",
     "winston": "^3.8.2"
-  },
-  "resolutions": {
-    "react-dropzone": "10.2.2"
   }
 }
