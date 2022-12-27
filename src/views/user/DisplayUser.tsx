@@ -7,30 +7,52 @@ import { Card } from 'baseui/card';
 import { Button } from 'baseui/button';
 import { ButtonGroup } from 'baseui/button-group';
 import { Option, Select } from 'baseui/select';
+import Saving, { SavingState } from '../../components/Saving';
+import { Input } from 'baseui/input';
+import BackButton from '../../components/BackButton';
+import { FlexGrid, FlexGridItem } from 'baseui/flex-grid';
 
 const DisplayUser = () => {
   const { id: userId } = useParams();
   const [user, setUser] = useState<any>(null);
   const [role, setRole] = useState<readonly Option[]>([]);
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [savingState, setSavingState] = useState(SavingState.SAVED);
 
   const fetchUser = async () => {
     if (!userId) return;
     const user = await Api.getUser(userId);
     setUser(user);
+    setEmail(user.email);
+    setPhone(user.phone);
     setRole([{ id: user.role }]);
+    setSavingState(SavingState.SAVED);
   };
 
   useEffect(() => {
-    if (!user || role.length !== 1 || user.role === role[0].id) return;
-    console.log('update role', role);
-    Api.patchUser(user._id, { role: role[0].id })
-      .then(() => {
-        void fetchUser();
+    if (!user) return;
+    if (user.email !== email) setSavingState(SavingState.NOT_SAVED);
+    if (user.phone !== phone) setSavingState(SavingState.NOT_SAVED);
+    if (role.length > 0 && user.role !== role[0].id)
+      setSavingState(SavingState.NOT_SAVED);
+  }, [role, email, phone]);
+
+  const saveUser = () => {
+    Api.patchUser(user._id, {
+      role: role[0].id,
+      email,
+      phone,
+    })
+      .then((user) => {
+        setUser(user);
+        setSavingState(SavingState.SAVED);
       })
       .catch(() => {
         console.error('Fail to update user');
+        setSavingState(SavingState.SAVED);
       });
-  }, [role, user]);
+  };
 
   const inviteUser = async () => {
     if (!userId) return;
@@ -46,16 +68,24 @@ const DisplayUser = () => {
 
   return (
     <Card>
+      <Saving state={savingState} />
       <HeadingSmall>
         {user?.firstName} {user?.lastName}
       </HeadingSmall>
+      <BackButton />
       <Block>
-        <strong>Email:</strong> {user?.email}
+        <label>
+          <strong>Email</strong>
+          <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+        </label>
       </Block>
-      <Block>
-        <strong>Téléphone:</strong> {user?.phone}
+      <Block marginTop="scale800">
+        <label>
+          <strong>Téléphone</strong>
+          <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+        </label>
       </Block>
-      <Block>
+      <Block marginTop="scale800">
         <strong>Role</strong>
         <Select
           value={role}
@@ -66,16 +96,31 @@ const DisplayUser = () => {
           ]}
         />
       </Block>
-      <Block marginTop="scale400">
-        <ButtonGroup>
-          <Button type="button" onClick={inviteUser}>
-            Inviter
+      <FlexGrid
+        flexGridColumnCount={2}
+        marginTop="scale800"
+        justifyContent="space-between"
+      >
+        <FlexGridItem>
+          <ButtonGroup>
+            <Button type="button" onClick={inviteUser}>
+              Inviter
+            </Button>
+            <Button type="button" disabled onClick={() => {}}>
+              Supprimer
+            </Button>
+          </ButtonGroup>
+        </FlexGridItem>
+        <FlexGridItem>
+          <Button
+            type="button"
+            isLoading={savingState === SavingState.SAVING}
+            onClick={saveUser}
+          >
+            Enregistrer
           </Button>
-          <Button type="button" disabled onClick={() => {}}>
-            Supprimer
-          </Button>
-        </ButtonGroup>
-      </Block>
+        </FlexGridItem>
+      </FlexGrid>
     </Card>
   );
 };

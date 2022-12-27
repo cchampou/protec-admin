@@ -19,6 +19,7 @@
     "vite": "^3.2.4"
   },
   "dependencies": {
+    "@mantine/hooks": "^5.9.5",
     "@vitejs/plugin-react": "^2.2.0",
     "baseui": "https://pkg.csb.dev/uber/baseweb/commit/ed8727fb/baseui",
     "react": "^18.2.0",
