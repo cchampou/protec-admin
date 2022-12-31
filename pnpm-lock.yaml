@@ -6,7 +6,9 @@ specifiers:
   '@types/react-dom': ^18.0.9
   '@vitejs/plugin-react': ^2.2.0
   baseui: https://pkg.csb.dev/uber/baseweb/commit/ed8727fb/baseui
+  email-validator: ^2.0.4
   eslint: ^8.29.0
+  phone: ^3.1.32
   prettier: ^2.8.0
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -22,6 +24,8 @@ dependencies:
   '@mantine/hooks': 5.9.5_react@18.2.0
   '@vitejs/plugin-react': 2.2.0_vite@3.2.4
   baseui: '@pkg.csb.dev/uber/baseweb/commit/ed8727fb/baseui_wxsc723lbq6a7kvmdwywcrtntq'
+  email-validator: 2.0.4
+  phone: 3.1.32
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.7.1_react@18.2.0
@@ -979,6 +983,11 @@ packages:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
     dev: false
 
+  /email-validator/2.0.4:
+    resolution: {integrity: sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==}
+    engines: {node: '>4.0'}
+    dev: false
+
   /enabled/2.0.0:
     resolution: {integrity: sha512-AKrN98kuwOzMIdAizXGI86UFBoo26CL21UM763y1h/GMSJ4/OHU9k2YlsmBpyScFo/wbLzWQJBMCW4+IO3/+OQ==}
     dev: false
@@ -1704,6 +1713,11 @@ packages:
 
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
+
+  /phone/3.1.32:
+    resolution: {integrity: sha512-kT89uAqNr8sEXjv/2NDzp2Kpb/BQ5bTzHMLZFwUnqDnDBaObcO3qLzQ030tDlhxZrFVUd+EIq8pie5/L8SNVrQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}

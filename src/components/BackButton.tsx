@@ -10,6 +10,7 @@ const BackButton = () => {
     <Block marginBottom="scale800">
       <Button
         onClick={() => navigate(-1)}
+        type="button"
         size={SIZE.compact}
         kind={KIND.secondary}
       >
