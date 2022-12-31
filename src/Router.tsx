@@ -68,7 +68,6 @@ const Router = () => {
         </>
       )}
       <Routes>
-        <Route path="login" index element={<Login />} />
         <Route path="recover" element={<Recover />} />
         <Route path="password/:token" element={<Password />} />
         <Route path="dashboard">
@@ -79,6 +78,7 @@ const Router = () => {
           <Route path="event/list" element={<ListEvents />} />
           <Route path="event/:id" element={<DisplayEvent />} />
         </Route>
+        <Route path="*" index element={<Login />} />
       </Routes>
     </>
   );
