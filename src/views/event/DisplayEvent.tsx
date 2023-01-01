@@ -1,5 +1,11 @@
 import { Card } from 'baseui/card';
-import { HeadingSmall } from 'baseui/typography';
+import {
+  HeadingLarge,
+  HeadingMedium,
+  HeadingSmall,
+  ParagraphLarge,
+  ParagraphMedium,
+} from 'baseui/typography';
 import { Button } from 'baseui/button';
 import { Block } from 'baseui/block';
 import { ButtonGroup } from 'baseui/button-group';
@@ -17,6 +23,8 @@ import {
   MdPhonelinkRing,
   MdQueryBuilder,
 } from 'react-icons/all';
+import { FlexGrid } from 'baseui/flex-grid';
+import Stat from '../../components/Stat';
 
 const DisplayEvent = () => {
   const { id: eventId } = useParams();
@@ -81,7 +89,11 @@ const DisplayEvent = () => {
       <Block>
         <strong>Commentaire:</strong> {event.comment}
       </Block>
-      <Block height="scale800" />
+      <FlexGrid margin="1rem">
+        <Stat number={event.pending} label="En attente" />
+        <Stat number={event.accepted} label="Présent" />
+        <Stat number={event.refused} label="Absent" />
+      </FlexGrid>
       <ButtonGroup>
         <Button
           type="button"
