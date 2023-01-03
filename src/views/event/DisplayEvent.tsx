@@ -25,11 +25,14 @@ import {
 } from 'react-icons/all';
 import { FlexGrid } from 'baseui/flex-grid';
 import Stat from '../../components/Stat';
+import { Notification } from 'baseui/notification';
 
 const DisplayEvent = () => {
   const { id: eventId } = useParams();
   const interval = useRef<number>();
+  const timeout = useRef<number>();
   const [event, setEvent] = useState<any>(null);
+  const [message, setMessage] = useState<string>('');
 
   const fetchEvent = async () => {
     if (!eventId) return;
@@ -41,9 +44,23 @@ const DisplayEvent = () => {
     }
   };
 
+  useEffect(() => {
+    if (message.length > 0) {
+      timeout.current = window.setTimeout(() => setMessage(''), 5000);
+    }
+    return () => {
+      if (timeout.current) clearTimeout(timeout.current);
+    };
+  }, [message]);
+
   const notify = async (mode: string) => {
     if (!eventId) return;
-    await Api.sendNotification(eventId, mode);
+    try {
+      const { message } = await Api.sendNotification(eventId, mode);
+      setMessage(message);
+    } catch (e) {
+      console.error('Une erreur est survenue');
+    }
     await fetchEvent();
   };
 
@@ -190,6 +207,11 @@ const DisplayEvent = () => {
           }}
         </TableBuilderColumn>
       </TableBuilder>
+      {message && (
+        <Block position="fixed" top="scale800" right="scale800">
+          <Notification>{message}</Notification>
+        </Block>
+      )}
     </Card>
   );
 };

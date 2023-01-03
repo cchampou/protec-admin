@@ -104,15 +104,13 @@ class Api {
     }
   }
 
-  public static async sendNotification(eventId: string, mode: string) {
-    try {
-      await this.fetch(`/api/event/${eventId}/notify/${mode}`, {
-        method: 'POST',
-      });
-      console.info('Notification sent');
-    } catch (error) {
-      console.error('Failed to send notification', error);
-    }
+  public static async sendNotification(
+    eventId: string,
+    mode: string,
+  ): Promise<any> {
+    return await this.fetch(`/api/event/${eventId}/notify/${mode}`, {
+      method: 'POST',
+    });
   }
 
   public static async importUsers(file: File) {
