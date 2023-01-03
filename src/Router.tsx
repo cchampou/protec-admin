@@ -73,12 +73,13 @@ const Router = () => {
         <Route path="dashboard">
           <Route path="user/list" element={<ListUsers />} />
           <Route path="user/new" element={<NewUser />} />
+          <Route path="user" element={<DisplayUser />} />
           <Route path="user/:id" element={<DisplayUser />} />
           <Route path="event/new" element={<NewEvent />} />
           <Route path="event/list" element={<ListEvents />} />
           <Route path="event/:id" element={<DisplayEvent />} />
         </Route>
-        <Route path="*" index element={<Login />} />
+        <Route path="/" index element={<Login />} />
       </Routes>
     </>
   );

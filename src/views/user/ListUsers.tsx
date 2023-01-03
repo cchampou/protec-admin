@@ -29,7 +29,7 @@ const ListUsers = () => {
         onClose={() => setIsOpenUploadUsers(false)}
       />
       <ButtonGroup>
-        <Button type="button" disabled onClick={() => navigate('/user/new')}>
+        <Button type="button" onClick={() => navigate('/dashboard/user')}>
           Créer
         </Button>
         <Button type="button" onClick={() => setIsOpenUploadUsers(true)}>

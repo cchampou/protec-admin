@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FormEvent, useEffect, useState } from 'react';
 import Api from '../../services/Api';
 import { Block } from 'baseui/block';
@@ -24,6 +24,7 @@ const DisplayUser = () => {
   const [lastName, setLastName] = useState('');
   const [message, setMessage] = useState('');
   const [savingState, setSavingState] = useState(SavingState.SAVED);
+  const navigate = useNavigate();
 
   const fetchUser = async () => {
     if (!userId) return;
@@ -61,21 +62,33 @@ const DisplayUser = () => {
       });
     if (!isPhoneValid) return setMessage("Le téléphone n'est pas valide");
     setMessage('');
-    Api.patchUser(user._id, {
+    const body = {
       role: role[0].id,
       email,
       phone: validatedPhone,
       firstName,
       lastName,
-    })
-      .then(() => {
-        setSavingState(SavingState.SAVED);
-        void fetchUser();
-      })
-      .catch((error) => {
-        console.error('Fail to update user');
-        setMessage(error.message);
-      });
+    };
+    if (userId) {
+      Api.patchUser(user._id, body)
+        .then(() => {
+          setSavingState(SavingState.SAVED);
+          void fetchUser();
+        })
+        .catch((error) => {
+          console.error('Fail to update user');
+          setMessage(error.message);
+        });
+    } else {
+      Api.postUser(body)
+        .then(() => {
+          navigate('/dashboard/user/list');
+        })
+        .catch((error) => {
+          console.error('Fail to create user');
+          setMessage(error.message);
+        });
+    }
   };
 
   const inviteUser = async () => {
@@ -87,8 +100,6 @@ const DisplayUser = () => {
   useEffect(() => {
     void fetchUser();
   }, [userId]);
-
-  if (!user) return null;
 
   return (
     <Card>
@@ -145,16 +156,18 @@ const DisplayUser = () => {
           marginTop="scale800"
           justifyContent="space-between"
         >
-          <FlexGridItem>
-            <ButtonGroup>
-              <Button type="button" onClick={inviteUser}>
-                Inviter
-              </Button>
-              <Button type="button" disabled onClick={() => {}}>
-                Supprimer
-              </Button>
-            </ButtonGroup>
-          </FlexGridItem>
+          {userId && (
+            <FlexGridItem>
+              <ButtonGroup>
+                <Button type="button" onClick={inviteUser}>
+                  Inviter
+                </Button>
+                <Button type="button" disabled onClick={() => {}}>
+                  Supprimer
+                </Button>
+              </ButtonGroup>
+            </FlexGridItem>
+          )}
           <FlexGridItem>
             <Button
               type="submit"

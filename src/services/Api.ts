@@ -73,6 +73,16 @@ class Api {
     }
   }
 
+  public static async postUser(user: any) {
+    return this.fetch('/api/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+  }
+
   public static async patchUser(id: string, user: any) {
     return this.fetch(`/api/user/${id}`, {
       method: 'PATCH',
