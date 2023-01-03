@@ -3,13 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { Button, KIND, SIZE } from 'baseui/button';
 import { Block } from 'baseui/block';
 
-const BackButton = () => {
+type Props = {
+  path: string;
+};
+
+const BackButton = ({ path }: Props) => {
   const navigate = useNavigate();
 
   return (
     <Block marginBottom="scale800">
       <Button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(path)}
         type="button"
         size={SIZE.compact}
         kind={KIND.secondary}

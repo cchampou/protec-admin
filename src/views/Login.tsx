@@ -4,19 +4,18 @@ import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
 import { Button } from 'baseui/button';
 import { Block } from 'baseui/block';
-import { HeadingSmall } from 'baseui/typography';
-import { Card } from 'baseui/card';
-import { KIND, Notification } from 'baseui/notification';
-import Api from '../services/Api';
+import { KIND } from 'baseui/notification';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Auth from '../services/Auth';
+import useNotification from '../hooks/useNotification';
+import ContentCard from '../components/ContentCard';
 
 const Login = () => {
   const [, theme] = useStyletron();
   const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const notification = useNotification();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -24,13 +23,12 @@ const Login = () => {
       await Auth.authenticate(email, password);
       navigate('/dashboard/event/list');
     } catch (error) {
-      setErrorMessage(error.message);
+      notification(error.message, KIND.negative);
     }
   };
 
   return (
-    <Card>
-      <HeadingSmall>Connexion</HeadingSmall>
+    <ContentCard title="Connexion">
       <form onSubmit={handleSubmit}>
         <Block marginBottom={theme.sizing.scale400}>
           <FormControl label="Email">
@@ -59,11 +57,8 @@ const Login = () => {
         <Block marginBottom={theme.sizing.scale400}>
           <Button type="submit">Se connecter</Button>
         </Block>
-        {errorMessage && (
-          <Notification kind={KIND.negative}>{errorMessage}</Notification>
-        )}
       </form>
-    </Card>
+    </ContentCard>
   );
 };
 

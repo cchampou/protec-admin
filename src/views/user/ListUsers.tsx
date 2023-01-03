@@ -1,14 +1,12 @@
-import { Card } from 'baseui/card';
-import { Table } from 'baseui/table';
 import { Button, SIZE } from 'baseui/button';
 import { Block } from 'baseui/block';
 import { ButtonGroup } from 'baseui/button-group';
-import { HeadingSmall, HeadingXSmall } from 'baseui/typography';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Api from '../../services/Api';
 import UploadUsers from './UploadUsers';
 import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
+import ContentCard from '../../components/ContentCard';
 
 const ListUsers = () => {
   const navigate = useNavigate();
@@ -22,8 +20,7 @@ const ListUsers = () => {
   }, [isOpenUploadUsers]);
 
   return (
-    <Card>
-      <HeadingSmall>Utilisateurs</HeadingSmall>
+    <ContentCard title="Utilisateurs">
       <UploadUsers
         isOpen={isOpenUploadUsers}
         onClose={() => setIsOpenUploadUsers(false)}
@@ -59,7 +56,7 @@ const ListUsers = () => {
           )}
         </TableBuilderColumn>
       </TableBuilder>
-    </Card>
+    </ContentCard>
   );
 };
 

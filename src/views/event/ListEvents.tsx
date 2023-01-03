@@ -1,11 +1,10 @@
-import { Card } from 'baseui/card';
-import { HeadingSmall } from 'baseui/typography';
 import { Button, KIND } from 'baseui/button';
 import { Block } from 'baseui/block';
 import { useNavigate } from 'react-router-dom';
 import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
 import Api from '../../services/Api';
 import { useEffect, useState } from 'react';
+import ContentCard from '../../components/ContentCard';
 
 type SeeDetailsButtonProps = {
   id: string;
@@ -37,8 +36,7 @@ const ListEvents = () => {
   }, []);
 
   return (
-    <Card>
-      <HeadingSmall>Liste des événements</HeadingSmall>
+    <ContentCard title="Liste des événements">
       <Button type="button" onClick={() => navigate('/dashboard/event/new')}>
         Nouveau
       </Button>
@@ -57,7 +55,7 @@ const ListEvents = () => {
           {(row) => <SeeDetailsButton id={row._id} />}
         </TableBuilderColumn>
       </TableBuilder>
-    </Card>
+    </ContentCard>
   );
 };
 

@@ -1,17 +1,19 @@
 import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Api from '../services/Api';
+import useNotification from './useNotification';
+import { KIND } from 'baseui/notification';
 
 type ChangeHandlerDate = Date | Date[] | null | undefined;
 
 const useNewEvent = () => {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState();
+  const notification = useNotification();
   const [newEvent, setNewEvent] = useState({
-    title: 'Event de test',
-    location: 'Place Bellecour',
-    eProtecLink: 'https://www.eprotec.fr',
-    comment: 'Ceci est un essai',
+    title: '',
+    location: '',
+    eProtecLink: '',
+    comment: '',
     start: new Date(),
     end: new Date(),
   });
@@ -29,10 +31,7 @@ const useNewEvent = () => {
       const apiResponseEvent = await Api.createEvent(newEvent);
       navigate('/dashboard/event/' + apiResponseEvent._id);
     } catch (error) {
-      setErrorMessage(error.message);
-      setTimeout(() => {
-        setErrorMessage(undefined);
-      }, 3000);
+      notification(error.message, KIND.negative);
     }
   };
 
@@ -82,7 +81,6 @@ const useNewEvent = () => {
     newEvent,
     handleChange,
     handleSubmit,
-    errorMessage,
     setStartDate,
     setStartTime,
     setEndDate,

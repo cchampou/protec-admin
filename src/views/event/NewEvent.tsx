@@ -1,6 +1,4 @@
 import { Button } from 'baseui/button';
-import Api from '../../services/Api';
-import { HeadingSmall } from 'baseui/typography';
 import { Input } from 'baseui/input';
 import { Card } from 'baseui/card';
 import { useStyletron } from 'baseui';
@@ -8,7 +6,8 @@ import { Block } from 'baseui/block';
 import { Textarea } from 'baseui/textarea';
 import { DatePicker, TimePicker } from 'baseui/datepicker';
 import useNewEvent from '../../hooks/useNewEvent';
-import { KIND, Notification } from 'baseui/notification';
+import BackButton from '../../components/BackButton';
+import ContentCard from '../../components/ContentCard';
 
 const NewEvent = () => {
   const [, theme] = useStyletron();
@@ -16,7 +15,6 @@ const NewEvent = () => {
     handleChange,
     handleSubmit,
     newEvent,
-    errorMessage,
     setStartDate,
     setStartTime,
     setEndDate,
@@ -24,9 +22,8 @@ const NewEvent = () => {
   } = useNewEvent();
 
   return (
-    <Card>
+    <ContentCard title="Nouvel événement" previousPath="/dashboard/event/list">
       <form onSubmit={handleSubmit}>
-        <HeadingSmall>Nouvel événement</HeadingSmall>
         <Block marginBottom={theme.sizing.scale400}>
           <Input
             placeholder="Titre"
@@ -87,14 +84,9 @@ const NewEvent = () => {
             value={newEvent.comment}
           />
         </Block>
-        {errorMessage && (
-          <Block position="fixed" top="scale800" right="scale800">
-            <Notification kind={KIND.negative}>{errorMessage}</Notification>
-          </Block>
-        )}
         <Button type="submit">Créer</Button>
       </form>
-    </Card>
+    </ContentCard>
   );
 };
 

@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { NavigationProps } from 'baseui/side-navigation';
 import Login from './views/Login';
 import ListUsers from './views/user/ListUsers';
-import NewUser from './views/user/NewUser';
 import DisplayUser from './views/user/DisplayUser';
 import NewEvent from './views/event/NewEvent';
 import ListEvents from './views/event/ListEvents';
@@ -24,7 +23,11 @@ const NAVIGATION_ITEMS = [
     itemId: '/dashboard/event/list',
     subNav: [{ title: 'Nouvel événement', itemId: '/dashboard/event/new' }],
   },
-  { title: 'Utilisateurs', itemId: '/dashboard/user/list' },
+  {
+    title: 'Utilisateurs',
+    itemId: '/dashboard/user/list',
+    subNav: [{ title: 'Nouvel utilisateur', itemId: '/dashboard/user' }],
+  },
   { title: 'Déconnexion', itemId: '/' },
 ];
 
@@ -73,7 +76,6 @@ const Router = () => {
         <Route path="password/:token" element={<Password />} />
         <Route path="dashboard">
           <Route path="user/list" element={<ListUsers />} />
-          <Route path="user/new" element={<NewUser />} />
           <Route path="user" element={<DisplayUser />} />
           <Route path="user/:id" element={<DisplayUser />} />
           <Route path="event/new" element={<NewEvent />} />

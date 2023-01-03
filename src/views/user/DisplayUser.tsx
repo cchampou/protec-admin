@@ -7,12 +7,14 @@ import { Card } from 'baseui/card';
 import { Button } from 'baseui/button';
 import { ButtonGroup } from 'baseui/button-group';
 import { Option, Select } from 'baseui/select';
-import Saving, { SavingState } from '../../components/Saving';
 import { Input } from 'baseui/input';
 import BackButton from '../../components/BackButton';
 import { FlexGrid, FlexGridItem } from 'baseui/flex-grid';
-import { KIND, Notification } from 'baseui/notification';
+import { KIND } from 'baseui/notification';
 import { phone as validatePhone } from 'phone';
+import useNotification from '../../hooks/useNotification';
+import { HeadingSmall } from 'baseui/typography';
+import ContentCard from '../../components/ContentCard';
 
 const DisplayUser = () => {
   const { id: userId } = useParams();
@@ -22,8 +24,7 @@ const DisplayUser = () => {
   const [phone, setPhone] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [message, setMessage] = useState('');
-  const [savingState, setSavingState] = useState(SavingState.SAVED);
+  const notification = useNotification();
   const navigate = useNavigate();
 
   const fetchUser = async () => {
@@ -35,33 +36,28 @@ const DisplayUser = () => {
     setFirstName(user.firstName);
     setLastName(user.lastName);
     setRole([{ id: user.role }]);
-    setSavingState(SavingState.SAVED);
   };
-
-  useEffect(() => {
-    if (!user) return;
-    if (user.email !== email) setSavingState(SavingState.NOT_SAVED);
-    if (user.phone !== phone) setSavingState(SavingState.NOT_SAVED);
-    if (role.length > 0 && user.role !== role[0].id)
-      setSavingState(SavingState.NOT_SAVED);
-    if (user.firstName !== firstName) setSavingState(SavingState.NOT_SAVED);
-    if (user.lastName !== lastName) setSavingState(SavingState.NOT_SAVED);
-  }, [role, email, phone, firstName, lastName]);
 
   const saveUser = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (firstName.length === 0) return setMessage('Le prénom est obligatoire');
-    if (lastName.length === 0) return setMessage('Le nom est obligatoire');
-    if (role.length === 0) return setMessage('Le rôle est obligatoire');
-    if (email.length === 0) return setMessage("L'email est obligatoire");
-    if (!validate(email)) return setMessage("L'email n'est pas valide");
-    if (phone.length === 0) return setMessage('Le téléphone est obligatoire');
+    if (firstName.length === 0)
+      return notification('Le prénom est obligatoire', KIND.negative);
+    if (lastName.length === 0)
+      return notification('Le nom est obligatoire', KIND.negative);
+    if (role.length === 0)
+      return notification('Le rôle est obligatoire', KIND.negative);
+    if (email.length === 0)
+      return notification("L'email est obligatoire", KIND.negative);
+    if (!validate(email))
+      return notification("L'email n'est pas valide", KIND.negative);
+    if (phone.length === 0)
+      return notification('Le téléphone est obligatoire', KIND.negative);
     const { phoneNumber: validatedPhone, isValid: isPhoneValid } =
       validatePhone(phone, {
         country: 'FR',
       });
-    if (!isPhoneValid) return setMessage("Le téléphone n'est pas valide");
-    setMessage('');
+    if (!isPhoneValid)
+      return notification("Le téléphone n'est pas valide", KIND.negative);
     const body = {
       role: role[0].id,
       email,
@@ -72,12 +68,12 @@ const DisplayUser = () => {
     if (userId) {
       Api.patchUser(user._id, body)
         .then(() => {
-          setSavingState(SavingState.SAVED);
+          notification('Utilisateur modifié', KIND.positive);
           void fetchUser();
         })
         .catch((error) => {
-          console.error('Fail to update user');
-          setMessage(error.message);
+          notification(error.message, KIND.negative);
+          console.error(error);
         });
     } else {
       Api.postUser(body)
@@ -85,8 +81,8 @@ const DisplayUser = () => {
           navigate('/dashboard/user/list');
         })
         .catch((error) => {
-          console.error('Fail to create user');
-          setMessage(error.message);
+          notification(error.message, KIND.negative);
+          console.error(error);
         });
     }
   };
@@ -102,10 +98,11 @@ const DisplayUser = () => {
   }, [userId]);
 
   return (
-    <Card>
+    <ContentCard
+      title={userId ? 'Editer un utilisateur' : 'Nouvel utilisateur'}
+      previousPath="/dashboard/user/list"
+    >
       <form onSubmit={saveUser}>
-        <Saving state={savingState} />
-        <BackButton />
         <Block>
           <label>
             <strong>Prénom</strong>
@@ -169,21 +166,11 @@ const DisplayUser = () => {
             </FlexGridItem>
           )}
           <FlexGridItem>
-            <Button
-              type="submit"
-              isLoading={savingState === SavingState.SAVING}
-            >
-              Enregistrer
-            </Button>
+            <Button type="submit">Enregistrer</Button>
           </FlexGridItem>
         </FlexGrid>
       </form>
-      {message && (
-        <Block position="fixed" top="scale800" right="scale800">
-          <Notification kind={KIND.negative}>{message}</Notification>
-        </Block>
-      )}
-    </Card>
+    </ContentCard>
   );
 };
 

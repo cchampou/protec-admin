@@ -1,11 +1,3 @@
-import { Card } from 'baseui/card';
-import {
-  HeadingLarge,
-  HeadingMedium,
-  HeadingSmall,
-  ParagraphLarge,
-  ParagraphMedium,
-} from 'baseui/typography';
 import { Button } from 'baseui/button';
 import { Block } from 'baseui/block';
 import { ButtonGroup } from 'baseui/button-group';
@@ -18,21 +10,22 @@ import {
   MdCheckCircle,
   MdDangerous,
   MdOutlineAddToHomeScreen,
-  MdOutlineSend,
   MdOutlineSms,
   MdPhonelinkRing,
   MdQueryBuilder,
 } from 'react-icons/all';
 import { FlexGrid } from 'baseui/flex-grid';
 import Stat from '../../components/Stat';
-import { Notification } from 'baseui/notification';
+import { KIND } from 'baseui/notification';
+import useNotification from '../../hooks/useNotification';
+import BackButton from '../../components/BackButton';
+import ContentCard from '../../components/ContentCard';
 
 const DisplayEvent = () => {
   const { id: eventId } = useParams();
   const interval = useRef<number>();
-  const timeout = useRef<number>();
   const [event, setEvent] = useState<any>(null);
-  const [message, setMessage] = useState<string>('');
+  const notification = useNotification();
 
   const fetchEvent = async () => {
     if (!eventId) return;
@@ -44,22 +37,13 @@ const DisplayEvent = () => {
     }
   };
 
-  useEffect(() => {
-    if (message.length > 0) {
-      timeout.current = window.setTimeout(() => setMessage(''), 5000);
-    }
-    return () => {
-      if (timeout.current) clearTimeout(timeout.current);
-    };
-  }, [message]);
-
   const notify = async (mode: string) => {
     if (!eventId) return;
     try {
       const { message } = await Api.sendNotification(eventId, mode);
-      setMessage(message);
+      notification(message, KIND.positive);
     } catch (e) {
-      console.error('Une erreur est survenue');
+      notification("Impossible d'envoyer la notification", KIND.negative);
     }
     await fetchEvent();
   };
@@ -83,8 +67,7 @@ const DisplayEvent = () => {
   const endTime = new Date(event.end).toLocaleTimeString('fr-FR');
 
   return (
-    <Card>
-      <HeadingSmall>{event.title}</HeadingSmall>
+    <ContentCard previousPath="/dashboard/event/list" title={event.title}>
       <Block>
         <strong>Lieu:</strong> {event.location}
       </Block>
@@ -207,12 +190,7 @@ const DisplayEvent = () => {
           }}
         </TableBuilderColumn>
       </TableBuilder>
-      {message && (
-        <Block position="fixed" top="scale800" right="scale800">
-          <Notification>{message}</Notification>
-        </Block>
-      )}
-    </Card>
+    </ContentCard>
   );
 };
 

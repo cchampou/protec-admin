@@ -1,20 +1,8 @@
 import React from 'react';
-import { Card } from 'baseui/card';
-import { HeadingMedium } from 'baseui/typography';
-import { Button } from 'baseui/button';
-import { useNavigate } from 'react-router-dom';
+import ContentCard from '../components/ContentCard';
 
 const NotFound = () => {
-  const navigate = useNavigate();
-
-  return (
-    <Card>
-      <HeadingMedium>Page non trouvée</HeadingMedium>
-      <Button type="button" onClick={() => navigate('/')}>
-        Retour à l'accueil
-      </Button>
-    </Card>
-  );
+  return <ContentCard title="Page introuvable" previousPath="/" />;
 };
 
 export default NotFound;
