@@ -101,7 +101,7 @@ const DisplayEvent = () => {
             void notify('email');
           }}
         >
-          Déclechement email
+          Alerter par email
         </Button>
         <Button
           type="button"
@@ -109,7 +109,7 @@ const DisplayEvent = () => {
             void notify('push');
           }}
         >
-          Déclechement push
+          Alerter par notification
         </Button>
         <Button
           type="button"
@@ -117,7 +117,7 @@ const DisplayEvent = () => {
             void notify('sms');
           }}
         >
-          Déclechement SMS
+          Alerter par SMS
         </Button>
         <Button
           type="button"
@@ -125,7 +125,7 @@ const DisplayEvent = () => {
             void notify('phone');
           }}
         >
-          Déclechement téléphonique
+          Alerter par appel téléphonique
         </Button>
       </ButtonGroup>
       <TableBuilder data={event.notifications}>

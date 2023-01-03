@@ -16,6 +16,7 @@ import Auth from './services/Auth';
 import HamburgerButton from './components/HamburgerButton';
 import Recover from './views/Recover';
 import Password from './views/Password';
+import NotFound from './views/NotFound';
 
 const NAVIGATION_ITEMS = [
   {
@@ -24,7 +25,7 @@ const NAVIGATION_ITEMS = [
     subNav: [{ title: 'Nouvel événement', itemId: '/dashboard/event/new' }],
   },
   { title: 'Utilisateurs', itemId: '/dashboard/user/list' },
-  { title: 'Déconnexion', itemId: '/login' },
+  { title: 'Déconnexion', itemId: '/' },
 ];
 
 const Router = () => {
@@ -36,7 +37,7 @@ const Router = () => {
     event.preventDefault();
     if (!item.itemId) return;
     setIsOpen(false);
-    if (item.itemId === '/login') {
+    if (item.itemId === '/') {
       Auth.logout();
     }
     navigate(item.itemId);
@@ -44,8 +45,8 @@ const Router = () => {
 
   useEffect(() => {
     if (pathname.startsWith('/dashboard') && !Auth.isAuthenticated) {
-      navigate('/login');
-    } else if (pathname === '/login' && Auth.isAuthenticated) {
+      navigate('/');
+    } else if (pathname === '/' && Auth.isAuthenticated) {
       navigate('/dashboard/event/list');
     }
   }, [pathname, navigate]);
@@ -80,6 +81,7 @@ const Router = () => {
           <Route path="event/:id" element={<DisplayEvent />} />
         </Route>
         <Route path="/" index element={<Login />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
