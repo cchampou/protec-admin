@@ -7,16 +7,26 @@ import Api from '../../services/Api';
 import UploadUsers from './UploadUsers';
 import { TableBuilder, TableBuilderColumn } from 'baseui/table-semantic';
 import ContentCard from '../../components/ContentCard';
+import useNotification from '../../hooks/useNotification';
+import { KIND } from 'baseui/notification';
 
 const ListUsers = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [isOpenUploadUsers, setIsOpenUploadUsers] = useState(false);
+  const notification = useNotification();
+
+  const fetchUsers = async () => {
+    try {
+      const { payload: users }: { payload?: any } = await Api.getUsers();
+      setUsers(users);
+    } catch (error) {
+      notification(error.message, KIND.negative);
+    }
+  };
 
   useEffect(() => {
-    Api.getUsers().then((users) => {
-      setUsers(users);
-    });
+    void fetchUsers();
   }, [isOpenUploadUsers]);
 
   return (

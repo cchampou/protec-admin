@@ -28,7 +28,9 @@ const useNewEvent = () => {
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const apiResponseEvent = await Api.createEvent(newEvent);
+      const { payload: apiResponseEvent } = await Api.createEvent<any>(
+        newEvent,
+      );
       navigate('/dashboard/event/' + apiResponseEvent._id);
     } catch (error) {
       notification(error.message, KIND.negative);

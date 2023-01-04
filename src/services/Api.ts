@@ -1,7 +1,13 @@
 import Auth from './Auth';
 
 class Api {
-  private static async fetch(path: string, options: RequestInit) {
+  private static async fetch<T>(
+    path: string,
+    options: RequestInit,
+  ): Promise<{
+    message: string;
+    payload?: T;
+  }> {
     const url = `${import.meta.env.VITE_API_URL}${path}`;
     const response = await fetch(url, {
       ...options,
@@ -53,24 +59,16 @@ class Api {
     });
   }
 
-  public static async getUsers(): Promise<any> {
-    try {
-      return await this.fetch('/api/user', {
-        method: 'GET',
-      });
-    } catch (error) {
-      console.error('Failed to fetch users', error);
-    }
+  public static async getUsers() {
+    return this.fetch('/api/user', {
+      method: 'GET',
+    });
   }
 
-  public static async getUser(id: string): Promise<any> {
-    try {
-      return await this.fetch(`/api/user/${id}`, {
-        method: 'GET',
-      });
-    } catch (error) {
-      console.error('Failed to fetch user', error);
-    }
+  public static async getUser<T>(id: string) {
+    return this.fetch<T>(`/api/user/${id}`, {
+      method: 'GET',
+    });
   }
 
   public static async postUser(user: any) {
@@ -94,14 +92,9 @@ class Api {
   }
 
   public static async inviteUser(userId: string) {
-    try {
-      await this.fetch(`/api/user/${userId}/invite`, {
-        method: 'POST',
-      });
-      console.info('Invitation sent');
-    } catch (error) {
-      console.error('Failed to send invitation', error);
-    }
+    return await this.fetch(`/api/user/${userId}/invite`, {
+      method: 'POST',
+    });
   }
 
   public static async sendNotification(
@@ -138,8 +131,8 @@ class Api {
     });
   }
 
-  public static createEvent(event: any) {
-    return this.fetch('/api/event', {
+  public static createEvent<T>(event: any) {
+    return this.fetch<T>('/api/event', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

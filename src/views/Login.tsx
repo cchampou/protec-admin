@@ -35,8 +35,10 @@ const Login = () => {
             <Input
               placeholder="Email"
               name="email"
+              type="email"
               onChange={(event) => setEmail(event.currentTarget.value)}
               value={email}
+              required
             />
           </FormControl>
         </Block>
@@ -48,6 +50,7 @@ const Login = () => {
               type="password"
               onChange={(event) => setPassword(event.currentTarget.value)}
               value={password}
+              required
             />
           </FormControl>
         </Block>

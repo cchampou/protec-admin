@@ -18,7 +18,6 @@ import { FlexGrid } from 'baseui/flex-grid';
 import Stat from '../../components/Stat';
 import { KIND } from 'baseui/notification';
 import useNotification from '../../hooks/useNotification';
-import BackButton from '../../components/BackButton';
 import ContentCard from '../../components/ContentCard';
 
 const DisplayEvent = () => {
@@ -30,7 +29,7 @@ const DisplayEvent = () => {
   const fetchEvent = async () => {
     if (!eventId) return;
     try {
-      const event = await Api.getEvent(eventId);
+      const { payload: event } = await Api.getEvent(eventId);
       setEvent(event);
     } catch (e) {
       console.error('Fail to fetch event');

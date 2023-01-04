@@ -3,17 +3,14 @@ import { FormEvent, useEffect, useState } from 'react';
 import Api from '../../services/Api';
 import { Block } from 'baseui/block';
 import { validate } from 'email-validator';
-import { Card } from 'baseui/card';
 import { Button } from 'baseui/button';
 import { ButtonGroup } from 'baseui/button-group';
 import { Option, Select } from 'baseui/select';
 import { Input } from 'baseui/input';
-import BackButton from '../../components/BackButton';
 import { FlexGrid, FlexGridItem } from 'baseui/flex-grid';
 import { KIND } from 'baseui/notification';
 import { phone as validatePhone } from 'phone';
 import useNotification from '../../hooks/useNotification';
-import { HeadingSmall } from 'baseui/typography';
 import ContentCard from '../../components/ContentCard';
 
 const DisplayUser = () => {
@@ -29,7 +26,8 @@ const DisplayUser = () => {
 
   const fetchUser = async () => {
     if (!userId) return;
-    const user = await Api.getUser(userId);
+    const { payload: user } = await Api.getUser<any>(userId);
+    if (!user) return;
     setUser(user);
     setEmail(user.email);
     setPhone(user.phone);
@@ -38,7 +36,7 @@ const DisplayUser = () => {
     setRole([{ id: user.role }]);
   };
 
-  const saveUser = (e: FormEvent<HTMLFormElement>) => {
+  const saveUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (firstName.length === 0)
       return notification('Le prénom est obligatoire', KIND.negative);
@@ -66,30 +64,33 @@ const DisplayUser = () => {
       lastName,
     };
     if (userId) {
-      Api.patchUser(user._id, body)
-        .then(() => {
-          notification('Utilisateur modifié', KIND.positive);
-          void fetchUser();
-        })
-        .catch((error) => {
-          notification(error.message, KIND.negative);
-          console.error(error);
-        });
+      try {
+        const { message } = await Api.patchUser(user._id, body);
+        notification(message, KIND.positive);
+        await fetchUser();
+      } catch (error) {
+        notification(error.message, KIND.negative);
+        console.error(error);
+      }
     } else {
-      Api.postUser(body)
-        .then(() => {
-          navigate('/dashboard/user/list');
-        })
-        .catch((error) => {
-          notification(error.message, KIND.negative);
-          console.error(error);
-        });
+      try {
+        await Api.postUser(body);
+        navigate('/dashboard/user/list');
+      } catch (error) {
+        notification(error.message, KIND.negative);
+        console.error(error);
+      }
     }
   };
 
   const inviteUser = async () => {
     if (!userId) return;
-    await Api.inviteUser(userId);
+    try {
+      const { message } = await Api.inviteUser(userId);
+      if (message) notification(message, KIND.positive);
+    } catch (error) {
+      notification(error.message, KIND.negative);
+    }
     await fetchUser();
   };
 

@@ -6,7 +6,6 @@ import { Block } from 'baseui/block';
 import { Textarea } from 'baseui/textarea';
 import { DatePicker, TimePicker } from 'baseui/datepicker';
 import useNewEvent from '../../hooks/useNewEvent';
-import BackButton from '../../components/BackButton';
 import ContentCard from '../../components/ContentCard';
 
 const NewEvent = () => {
